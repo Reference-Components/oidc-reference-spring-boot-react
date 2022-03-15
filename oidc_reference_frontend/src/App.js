@@ -12,10 +12,23 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    let jwt;
+    if (document.cookie.indexOf('jwt-token=') !== -1) {
+      jwt = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('jwt-token='))
+          .split('=')[1];
+    } else {
+      jwt = '';
+    }
+
     axios({
       method: 'get',
       url: backendBaseUrl + '/current-user',
-      withCredentials: true
+      withCredentials: true,
+      headers: {
+        'Authorization': 'Bearer ' + jwt
+      }
     }).then(response => {
       this.setState({
         user: response.data
@@ -29,9 +42,13 @@ class App extends React.Component {
   render() {
     if (this.state.user) {
       console.log(this.state.user);
+      let name = this.state.user.fullName;
+      if (!name) {
+        name = this.state.user.name;
+      }
       return (
           <div>
-            <p>Current authenticated user: {this.state.user.fullName}</p>
+            <p>Current authenticated user: {name}</p>
             <p>Whole authentication object is logged in console for reference.</p>
             <input type="button" value="Log out" onClick={this.logout}/>
           </div>

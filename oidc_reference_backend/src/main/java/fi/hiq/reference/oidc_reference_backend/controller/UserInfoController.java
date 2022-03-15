@@ -1,7 +1,7 @@
 package fi.hiq.reference.oidc_reference_backend.controller;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,7 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserInfoController {
 
   @GetMapping("/current-user")
-  public OidcUser getOidcUserPrincipal(@AuthenticationPrincipal OidcUser principal) {
-    return principal;
+  public Object getUserPrincipal() {
+    Object principal = SecurityContextHolder.getContext().getAuthentication();
+    if (principal instanceof AnonymousAuthenticationToken) {
+      return null;
+    } else {
+      return principal;
+    }
   }
 }
