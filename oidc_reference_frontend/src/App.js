@@ -40,7 +40,10 @@ class App extends React.Component {
       return (
           <div>
             <p>Not logged in.</p>
-            <input type="button" value="Log in with Google" onClick={() => window.location = backendBaseUrl + '/login'}/>
+            <a className="button" href={backendBaseUrl + '/oauth2/authorization/google'}>Log in with Google</a>
+            <a className="button" href={backendBaseUrl + '/oauth2/authorization/ms_single'}>Log in with single tenant Microsoft account</a>
+            <a className="button" href={backendBaseUrl + '/oauth2/authorization/ms_personal'}>Log in with personal Microsoft account</a>
+            <a className="button" href={backendBaseUrl + '/oauth2/authorization/ms_multitenant'}>Log in with any Microsoft account</a>
           </div>
       )
     }
