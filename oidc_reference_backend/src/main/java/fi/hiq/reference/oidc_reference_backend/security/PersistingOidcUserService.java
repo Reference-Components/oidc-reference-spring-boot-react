@@ -34,14 +34,14 @@ public class PersistingOidcUserService extends OidcUserService {
   }
 
   private void processOidcUser(OidcUser oidcUser) {
-    GoogleUserInfo googleUserInfo = new GoogleUserInfo(oidcUser.getAttributes());
+    OidcUserInfo oidcUserInfo = new OidcUserInfo(oidcUser.getAttributes());
 
-    Optional<User> userOptional = userRepository.findByEmail(googleUserInfo.getEmail());
+    Optional<User> userOptional = userRepository.findByEmail(oidcUserInfo.getEmail());
     if (userOptional.isEmpty()) {
       User user = new User();
-      user.setSub(googleUserInfo.getId());
-      user.setEmail(googleUserInfo.getEmail());
-      user.setName(googleUserInfo.getName());
+      user.setSub(oidcUserInfo.getId());
+      user.setEmail(oidcUserInfo.getEmail());
+      user.setName(oidcUserInfo.getName());
 
       List<Authority> authorities = oidcUser.getAuthorities().stream()
           .map(GrantedAuthority::getAuthority)

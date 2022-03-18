@@ -2,10 +2,10 @@ package fi.hiq.reference.oidc_reference_backend.security;
 
 import java.util.Map;
 
-public class GoogleUserInfo {
+public class OidcUserInfo {
   private final Map<String, Object> attributes;
 
-  public GoogleUserInfo(Map<String, Object> attributes) {
+  public OidcUserInfo(Map<String, Object> attributes) {
     this.attributes = attributes;
   }
 
